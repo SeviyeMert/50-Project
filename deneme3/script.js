@@ -1,15 +1,9 @@
 
 
-let sayi = prompt("Bir sayı giriniz");
-let toplam = 0;
+let sayi = Number(prompt("Lütfen bir sayı giriniz"));
+let carpim = 1;
 
-for(let i=0 ; i<sayi.length ; i++ ){
-    let rakam = sayi.chatAt(i);
-    toplam+=rakam*rakam*rakam; 
+for( let i=1 ; i<=sayi ; i++){
+    carpim=carpim*i;
 }
-
-if(Number(sayi)==toplam){
-    alert("Armstrong sayısıdır ");
-}else{
-    alert("Armstrong sayısı değildir ");
-}
+alert("Sonuç :" + carpim );

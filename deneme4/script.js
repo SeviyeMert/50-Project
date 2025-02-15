@@ -1,18 +1,15 @@
 
 
-let metin = "Şuanda Yalova'da JavaScript eğitimi çekmekteyim.";
+let sayi = prompt("Bir sayı giriniz");
+let toplam = 0;
 
-let harf = prompt("Harfi giriniz");
+for(let i=0 ; i<sayi.length ; i++ ){
+    let rakam = sayi.chatAt(i);
+    toplam+=rakam*rakam*rakam; 
+}
 
-let sonuc = bul(harf);
-alert("Harf Sayısı :" + sonuc);
-
-function bul(harf){
-    let toplam =0;
-    for(let i =0; i<metin.length ; i++){
-        if(metin.charAt(i).toLocaleLowerCase()===harf.toLocaleLowerCase()){
-            toplam+=1;
-        }
-    }
-    return toplam;
+if(Number(sayi)==toplam){
+    alert("Armstrong sayısıdır ");
+}else{
+    alert("Armstrong sayısı değildir ");
 }
