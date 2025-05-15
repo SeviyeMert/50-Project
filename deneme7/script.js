@@ -32,7 +32,7 @@ let filtreliUrunler = [];
 let kullaniciUrunIsmi = prompt("Bir ürün ismi giriniz");
 
 filtreliUrunleriDoldur(urunler);
-filtreliUrunleriYazdir(filtreliUrunler)
+filtreliUrunleriYazdir(filtreliUrunler);
 
 function filtreliUrunleriDoldur(urunler){
     urunler.forEach(function(urun){
@@ -41,6 +41,7 @@ function filtreliUrunleriDoldur(urunler){
         }
     });
 }
+
 
 function filtreliUrunleriYazdir(urunler){
     urunler.forEach(function(urun) {
