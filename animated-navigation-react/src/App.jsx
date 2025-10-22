@@ -6,34 +6,46 @@ import { PiUserCircleGearLight } from "react-icons/pi";
 
 function App() {
   const [projects, setProjects] = useState([]);
-  const [newProjectName, setNewProjectName] = useState();
+  const [projectName, setProjectName] = useState();
 
   const [isInput, setIsInput] = useState(false);
 
+  const [editable, setEditable] = useState(false);
+
+  const [editedProjectName, setEditedProjectName] = useState("");
+
   const handleStartAddProject = () => {
     setIsInput(true);
-    setNewProjectName("");
+    setProjectName(" ");
   };
 
   const handleInputChange = (e) => {
-    setNewProjectName(e.target.value);
+    setProjectName(e.target.value);
   };
 
   const handleSaveProject = () => {
-    if (newProjectName.trim() !== "") {
-      setProjects([...projects, newProjectName]);
-      setNewProjectName("");
-      setIsInput(false);
-    } else {
-      alert("Lütfen bir proje adı girin.");
-    }
+    setProjects([...projects, projectName]);
+    setProjectName("");
+    setIsInput(false);
+    return;
   };
 
-  // const handleEditClick = (projectName) => {};
+  const handleEditClick = (p) => {
+    setEditedProjectName(p);
+    setEditable(true);
+  };
 
-  const handleDeleteClick = (projectNameDelete) => {
-    setProjects(
-      projects.filter((projectName) => projectName !== projectNameDelete)
+  const handleSaveEdit = () => {
+    setEditedProjectName("");
+  };
+
+  const handleEditInputChange = (e) => {
+    setEditedProjectName(e.target.value);
+  };
+
+  const handleDeleteClick = (projectDelete) => {
+    setProjects((prevProjects) =>
+      prevProjects.filter((projectName) => projectName !== projectDelete)
     );
   };
 
@@ -76,7 +88,7 @@ function App() {
               <li className="new-project-input-item">
                 <input
                   type="text"
-                  value={newProjectName}
+                  value={projectName}
                   onChange={handleInputChange}
                   placeholder="Proje Adı Girin"
                 />
@@ -84,16 +96,29 @@ function App() {
               </li>
             )}
 
-            {projects.map((projectName, index) => (
-              <li key={index}>
-                {projectName}{" "}
-                <input
-                  type="text"
-                  value={newProjectName}
-                  onChange={handleInputChange}
-                />
-                <button>Edit</button>
-                <button onClick={() => handleDeleteClick(projectName)}>
+            {projects.map((project) => (
+              <li key={project}>
+                <span>{projectName}</span>
+                {editable ? (
+                  <>
+                    <input
+                      type="text"
+                      value={editedProjectName}
+                      onChange={handleEditInputChange}
+                      placeholder="Proje Adı Düzenle"
+                    />
+                    <button onClick={() => handleSaveEdit(projectName)}>
+                      OK
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button onClick={() => handleEditClick(project)}>
+                      Edit
+                    </button>
+                  </>
+                )}
+                <button onClick={() => handleDeleteClick(project)}>
                   Delete
                 </button>
               </li>
