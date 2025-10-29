@@ -6,17 +6,14 @@ import { PiUserCircleGearLight } from "react-icons/pi";
 
 function App() {
   const [projects, setProjects] = useState([]);
-  const [projectName, setProjectName] = useState();
-
+  const [projectName, setProjectName] = useState("");
   const [isInput, setIsInput] = useState(false);
-
-  const [editable, setEditable] = useState(false);
-
+  const [editableProject, setEditableProject] = useState(null);
   const [editedProjectName, setEditedProjectName] = useState("");
 
   const handleStartAddProject = () => {
     setIsInput(true);
-    setProjectName(" ");
+    setProjectName("");
   };
 
   const handleInputChange = (e) => {
@@ -27,26 +24,27 @@ function App() {
     setProjects([...projects, projectName]);
     setProjectName("");
     setIsInput(false);
-    return;
   };
 
-  const handleEditClick = (p) => {
-    setEditedProjectName(p);
-    setEditable(true);
+  const handleDeleteClick = (projectDelete) => {
+    setProjects((prev) => prev.filter((p) => p !== projectDelete));
   };
 
-  const handleSaveEdit = () => {
-    setEditedProjectName("");
+  const handleEditClick = (project) => {
+    setEditedProjectName(project);
+    setEditableProject(project);
   };
 
   const handleEditInputChange = (e) => {
     setEditedProjectName(e.target.value);
   };
 
-  const handleDeleteClick = (projectDelete) => {
-    setProjects((prevProjects) =>
-      prevProjects.filter((projectName) => projectName !== projectDelete)
+  const handleSaveEdit = () => {
+    setProjects((prev) =>
+      prev.map((p) => (p === editableProject ? editedProjectName : p))
     );
+    setEditableProject(null);
+    setEditedProjectName("");
   };
 
   return (
@@ -98,29 +96,29 @@ function App() {
 
             {projects.map((project) => (
               <li key={project}>
-                <span>{projectName}</span>
-                {editable ? (
+                {editableProject === project ? (
                   <>
                     <input
                       type="text"
                       value={editedProjectName}
                       onChange={handleEditInputChange}
-                      placeholder="Proje Adı Düzenle"
                     />
-                    <button onClick={() => handleSaveEdit(projectName)}>
-                      OK
+                    <button onClick={() => handleSaveEdit(project)}>OK</button>
+                    <button onClick={() => handleDeleteClick(project)}>
+                      Delete
                     </button>
                   </>
                 ) : (
                   <>
+                    <span>{project}</span>
                     <button onClick={() => handleEditClick(project)}>
                       Edit
                     </button>
+                    <button onClick={() => handleDeleteClick(project)}>
+                      Delete
+                    </button>
                   </>
                 )}
-                <button onClick={() => handleDeleteClick(project)}>
-                  Delete
-                </button>
               </li>
             ))}
           </ul>
